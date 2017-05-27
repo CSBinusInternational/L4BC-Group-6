@@ -1,0 +1,54 @@
+	Exporter version: 4.6.1, Blender version: 2.78 (sub 0)
+========= Conversion from Blender to Babylon.js =========
+	Scene settings used:
+		selected layers only:  false
+		flat shading entire scene:  false
+		inline textures:  false
+		texture directory:  G:\BINUS\Semester4\Computer Graphics\LAB\blender\Kirito\Tes\
+	Python World class constructor completed
+	WARNING: No active camera has been assigned, or is not in a currently selected Blender layer
+	processing begun of skeleton:  Armature, id:  0
+		processing begun of bone:  Bone, index:  0
+		processing begun of bone:  Bone.002, index:  1
+		processing begun of bone:  Bone.001, index:  2
+		processing begun of bone:  Bone.003, index:  3
+		processing begun of bone:  Bone.004, index:  4
+		processing begun of bone:  Bone.006, index:  5
+		processing begun of bone:  Bone.010, index:  6
+		processing begun of bone:  Bone.023, index:  7
+		processing begun of bone:  Bone.005, index:  8
+		processing begun of bone:  Bone.007, index:  9
+		processing begun of bone:  Bone.011, index:  10
+		processing begun of bone:  Bone.008, index:  11
+		processing begun of bone:  Bone.009, index:  12
+		processing begun of bone:  Bone.012, index:  13
+		processing begun of bone:  Bone.014, index:  14
+		processing begun of bone:  Bone.016, index:  15
+		processing begun of bone:  Bone.018, index:  16
+		processing begun of bone:  Bone.020, index:  17
+		processing begun of bone:  Bone.013, index:  18
+		processing begun of bone:  Bone.015, index:  19
+		processing begun of bone:  Bone.017, index:  20
+		processing begun of bone:  Bone.019, index:  21
+		processing begun of bone:  Bone.021, index:  22
+		processing action ArmatureAction:  in[1 - 40], out[0 - 40]
+	processing begun of mesh:  Cube_Cube.000
+		processing begun of Standard material:  main.003
+			Diffuse texture found "Kd.003"
+				Image texture found, type:  diffuseTexture, mapped using: "UVMap"
+		num positions      :  1435
+		num normals        :  1435
+		num uvs            :  2870
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  2823
+		Skeleton stats:  
+			Total Influencers:  2900
+			Avg # of influencers per vertex:  2.0209
+			Highest # of influencers observed:  6, num vertices with this:  48
+			exported as 6 influencers
+			num skeletonWeights and skeletonIndices:  11480
+========= Writing of scene file started =========
+========= Writing of scene file completed =========
+========= end of processing =========
+elapsed time:  0 min, 0.3882 secs

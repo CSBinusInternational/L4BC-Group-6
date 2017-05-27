@@ -4,7 +4,7 @@
 		selected layers only:  false
 		flat shading entire scene:  false
 		inline textures:  false
-		texture directory:  G:\xampp\htdocs\CG\L4BC-Group-6\tower-of-beginning\assets\object\char\
+		texture directory:  G:\xampp\htdocs\CG\L4BC-Group-6\tower-of-beginning\assets\object\char\Tes\
 	Python World class constructor completed
 	processing begun of skeleton:  Armature, id:  0
 		processing begun of bone:  stomachBottom, index:  0
@@ -32,10 +32,6 @@
 		processing begun of bone:  rightPelvis.005, index:  22
 		processing action Action:  in[1 - 280], out[0 - 280]
 		processing action swordRight.001Action:  in[1 - 280], out[290 - 570]
-	processing begun of skeleton:  swordRight.001, id:  1
-		processing begun of bone:  Bone, index:  0
-		processing action Action:  in[1 - 280], out[0 - 280]
-		processing action swordRight.001Action:  in[1 - 280], out[290 - 570]
 	processing begun of mesh:  Cube_Cube.001
 		processing begun of Standard material:  main
 			Diffuse texture found "Kd"
@@ -53,22 +49,8 @@
 			exported as 7 influencers
 			num skeletonWeights and skeletonIndices:  9768
 	processing begun of camera (FreeCamera):  Camera
-	processing begun of mesh:  swordRight
-		registered as also a user of material:  main
-		num positions      :  214
-		num normals        :  214
-		num uvs            :  428
-		num uvs2           :  0
-		num colors         :  0
-		num indices        :  312
-		Skeleton stats:  
-			Total Influencers:  214
-			Avg # of influencers per vertex:  1
-			Highest # of influencers observed:  1, num vertices with this:  214
-			exported as 1 influencers
-			num skeletonWeights and skeletonIndices:  856
 	processing begun of light (POINT):  Lamp
 ========= Writing of scene file started =========
 ========= Writing of scene file completed =========
 ========= end of processing =========
-elapsed time:  0 min, 1.637 secs
+elapsed time:  0 min, 1.4664 secs
