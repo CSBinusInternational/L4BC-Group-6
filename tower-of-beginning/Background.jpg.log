@@ -1,0 +1,218 @@
+	Exporter version: 4.6.1, Blender version: 2.78 (sub 0)
+========= Conversion from Blender to Babylon.js =========
+	Scene settings used:
+		selected layers only:  false
+		flat shading entire scene:  false
+		inline textures:  false
+		texture directory:  C:\Users\ASUS\Desktop\cg\FP CG\Testing\
+	Python World class constructor completed
+	processing begun of skeleton:  Armature, id:  0
+		processing begun of bone:  hips, index:  0
+		processing begun of bone:  spine, index:  1
+		processing begun of bone:  ribs, index:  2
+		processing begun of bone:  neck, index:  3
+		processing begun of bone:  head, index:  4
+		processing begun of bone:  Eye_FullControl, index:  5
+		processing begun of bone:  Eye_IK.L, index:  6
+		processing begun of bone:  Eye.L, index:  7
+		processing begun of bone:  Eye_IK.R, index:  8
+		processing begun of bone:  Eye.R, index:  9
+		processing begun of bone:  shoulder.L, index:  10
+		processing begun of bone:  upper_arm.L, index:  11
+		processing begun of bone:  forearm.L, index:  12
+		processing begun of bone:  hand.L, index:  13
+		processing begun of bone:  palm.01.L, index:  14
+		processing begun of bone:  finger_index.01.L, index:  15
+		processing begun of bone:  finger_index.02.L, index:  16
+		processing begun of bone:  finger_index.03.L, index:  17
+		processing begun of bone:  thumb.01.L, index:  18
+		processing begun of bone:  thumb.02.L, index:  19
+		processing begun of bone:  thumb.03.L, index:  20
+		processing begun of bone:  palm.02.L, index:  21
+		processing begun of bone:  finger_middle.01.L, index:  22
+		processing begun of bone:  finger_middle.02.L, index:  23
+		processing begun of bone:  finger_middle.03.L, index:  24
+		processing begun of bone:  palm.03.L, index:  25
+		processing begun of bone:  finger_ring.01.L, index:  26
+		processing begun of bone:  finger_ring.02.L, index:  27
+		processing begun of bone:  finger_ring.03.L, index:  28
+		processing begun of bone:  shoulder.R, index:  29
+		processing begun of bone:  upper_arm.R, index:  30
+		processing begun of bone:  forearm.R, index:  31
+		processing begun of bone:  hand.R, index:  32
+		processing begun of bone:  palm.01.R, index:  33
+		processing begun of bone:  finger_index.01.R, index:  34
+		processing begun of bone:  finger_index.02.R, index:  35
+		processing begun of bone:  finger_index.03.R, index:  36
+		processing begun of bone:  thumb.01.R, index:  37
+		processing begun of bone:  thumb.02.R, index:  38
+		processing begun of bone:  thumb.03.R, index:  39
+		processing begun of bone:  palm.02.R, index:  40
+		processing begun of bone:  finger_middle.01.R, index:  41
+		processing begun of bone:  finger_middle.02.R, index:  42
+		processing begun of bone:  finger_middle.03.R, index:  43
+		processing begun of bone:  palm.03.R, index:  44
+		processing begun of bone:  finger_ring.01.R, index:  45
+		processing begun of bone:  finger_ring.02.R, index:  46
+		processing begun of bone:  finger_ring.03.R, index:  47
+		processing begun of bone:  thigh.L, index:  48
+		processing begun of bone:  Upper Shin.L, index:  49
+		processing begun of bone:  Lower Shin.L, index:  50
+		processing begun of bone:  foot_Heel.L, index:  51
+		processing begun of bone:  Foot.L, index:  52
+		processing begun of bone:  Toe3.0.L, index:  53
+		processing begun of bone:  Toe3.1.L, index:  54
+		processing begun of bone:  Toe3.2.L, index:  55
+		processing begun of bone:  Toe2.0.L, index:  56
+		processing begun of bone:  Toe2.1.L, index:  57
+		processing begun of bone:  Toe2.2.L, index:  58
+		processing begun of bone:  Toe1.0.L, index:  59
+		processing begun of bone:  Toe1.1.L, index:  60
+		processing begun of bone:  Toe1.3.L, index:  61
+		processing begun of bone:  thigh.R, index:  62
+		processing begun of bone:  Upper Shin.R, index:  63
+		processing begun of bone:  Lower Shin.R, index:  64
+		processing begun of bone:  foot_Heel.R, index:  65
+		processing begun of bone:  toe.R, index:  66
+		processing begun of bone:  Toe3.0.R, index:  67
+		processing begun of bone:  Toe3.1.R, index:  68
+		processing begun of bone:  Toe3.2.R, index:  69
+		processing begun of bone:  Toe2.0.R, index:  70
+		processing begun of bone:  Toe2.1.R, index:  71
+		processing begun of bone:  Toe2.2.R, index:  72
+		processing begun of bone:  Toe1.0.R, index:  73
+		processing begun of bone:  Toe1.1.R, index:  74
+		processing begun of bone:  Toe1.3.R, index:  75
+		processing action ArmatureAction:  in[0 - 41], out[0 - 41]
+	processing begun of mesh:  Plane
+		processing begun of Standard material:  Material.006
+		num positions      :  4
+		num normals        :  4
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  6
+	processing begun of mesh:  Circle
+		processing begun of Standard material:  Material.005
+			Diffuse texture found "Chain Main_Diff"
+				Image texture found, type:  diffuseTexture, mapped using: "UVMap"
+	WARNING: Error encountered processing image file:  , Error:  [Errno 2] No such file or directory: 'C:\\Users\\ASUS\\Desktop\\Model CG\\56015_WarWolf\\WereWolf Tex\\Chain Main_Diff.png'
+		num positions      :  96
+		num normals        :  96
+		num uvs            :  192
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  432
+		Skeleton stats:  
+			Total Influencers:  384
+			Avg # of influencers per vertex:  4
+			Highest # of influencers observed:  4, num vertices with this:  96
+			exported as 4 influencers
+			num skeletonWeights and skeletonIndices:  384
+	processing begun of mesh:  Wolf Man.001
+		processing begun of baked material:  Wolf Man.001
+			Internal baking texture, type: TEXTURE, mapped using: Body
+		num positions      :  2047
+		num normals        :  2047
+		num uvs            :  4094
+		num uvs2           :  0
+		num colors         :  8188
+		num indices        :  6786
+		Skeleton stats:  
+			Total Influencers:  5224
+			Avg # of influencers per vertex:  2.552
+			Highest # of influencers observed:  6, num vertices with this:  4
+			exported as 6 influencers
+			num skeletonWeights and skeletonIndices:  16376
+	processing begun of mesh:  Eye.L
+		processing begun of Standard material:  Material
+		processing begun of Standard material:  Material.001
+		processing begun of Standard material:  Material.002
+		processing begun of multimaterial:  Background_jpg.Multimaterial#0
+		num positions      :  578
+		num normals        :  578
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  3072
+		Skeleton stats:  
+			Total Influencers:  1156
+			Avg # of influencers per vertex:  2
+			Highest # of influencers observed:  2, num vertices with this:  578
+			exported as 2 influencers
+			num skeletonWeights and skeletonIndices:  2312
+	processing begun of mesh:  Hands
+		processing begun of baked material:  Hands
+			Internal baking texture, type: TEXTURE, mapped using: UVMap
+		num positions      :  2042
+		num normals        :  2042
+		num uvs            :  4084
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  7764
+		Skeleton stats:  
+			Total Influencers:  4774
+			Avg # of influencers per vertex:  2.3379
+			Highest # of influencers observed:  7, num vertices with this:  8
+			exported as 7 influencers
+			num skeletonWeights and skeletonIndices:  16336
+	processing begun of mesh:  Chain Bracelets
+		processing begun of Standard material:  Material.004
+			Bump texture found "Chains_Normals"
+				Image texture found, type:  bumpTexture, mapped using: "UVMap"
+	WARNING: Error encountered processing image file:  , Error:  [Errno 2] No such file or directory: 'C:\\Users\\ASUS\\Desktop\\Model CG\\56015_WarWolf\\WereWolf Tex\\Chain_Normals.png'
+			Diffuse texture found "Chains_Diff"
+				Image texture found, type:  diffuseTexture, mapped using: "UVMap"
+	WARNING: Error encountered processing image file:  , Error:  [Errno 2] No such file or directory: 'C:\\Users\\ASUS\\Desktop\\Model CG\\56015_WarWolf\\WereWolf Tex\\Chain_Diff.png'
+		num positions      :  263
+		num normals        :  263
+		num uvs            :  526
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  816
+		Skeleton stats:  
+			WARNING: Maximum # of influencers exceeded for 91 vertices, extras ignored
+			Total Influencers:  1961
+			Avg # of influencers per vertex:  7.4563
+			Highest # of influencers observed:  9, num vertices with this:  91
+			exported as 8 influencers
+			num skeletonWeights and skeletonIndices:  2104
+	processing begun of mesh:  Wolf Man
+		processing begun of baked material:  Wolf Man
+			Internal baking texture, type: TEXTURE, mapped using: Body
+		num positions      :  2349
+		num normals        :  2349
+		num uvs            :  4698
+		num uvs2           :  0
+		num colors         :  9396
+		num indices        :  11304
+		Skeleton stats:  
+			Total Influencers:  9367
+			Avg # of influencers per vertex:  3.9877
+			Highest # of influencers observed:  8, num vertices with this:  8
+			exported as 8 influencers
+			num skeletonWeights and skeletonIndices:  18792
+	processing begun of mesh:  Eye.R
+		registered as also a user of material:  Material
+		registered as also a user of material:  Material.001
+		registered as also a user of material:  Material.002
+		processing begun of multimaterial:  Background_jpg.Multimaterial#1
+		num positions      :  578
+		num normals        :  578
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  3072
+		Skeleton stats:  
+			Total Influencers:  1156
+			Avg # of influencers per vertex:  2
+			Highest # of influencers observed:  2, num vertices with this:  578
+			exported as 2 influencers
+			num skeletonWeights and skeletonIndices:  2312
+	processing begun of camera (FreeCamera):  Camera
+	processing begun of light (SUN):  Spot
+	processing begun of light (SUN):  Sun
+========= Writing of scene file started =========
+========= Writing of scene file completed =========
+========= end of processing =========
+elapsed time:  0 min, 16.1467 secs

@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="assets/js/babylon.js"></script>
+    <script src="hand-1.3.7.js"></script>
+    <script src="assets/js/babylonObjLoader.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="canvas2d.js"></script>
+
+
+    <title>CG Project</title>
+</head>
+<body>
+    <canvas id="myCanvas"></canvas>
+    <script>
+
+
+//============================================ Canvas & Camera =========================================================
+
+
+        var canvas = document.getElementById("myCanvas");
+        var engine = new BABYLON.Engine(canvas, true);
+        var scene = new BABYLON.Scene(engine);
+
+        var camera = new BABYLON.ArcRotateCamera("camera1", Math.PI/2,Math.PI/3,20, new BABYLON.Vector3(0,-70,0), scene);
+
+        camera.attachControl(canvas, false);
+
+        scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
+
+        scene.collisionsEnabled = true;
+        camera.checkCollisions = true;
+        camera.applyGravity = true;
+        camera.angularSensibility = 1000;
+        camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
+
+
+        var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0,10,0), scene);
+        var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0,10,0), scene);
+        light.intensity = 0.5;
+
+        scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
+        scene.fogDensity = 0.008;
+        scene.fogColor = new BABYLON.Color3(0.2,0.2,0.3);
+
+
+//==================================== End of Canvas & Camera ==========================================================
+
+
+
+
+
+//========================================== Start Menu ================================================================
+
+
+        var mainMenu = function(scene){
+            var size = document.getElementById("myCanvas");
+            var canvas = new BABYLON.ScreenSpaceCanvas2D(scene,{
+                id: "cameraCanvas",
+                backgroundFill: "#00000000",
+                size: new BABYLON.Size(size.clientWidth,size.clientHeight)
+            });
+
+            var textureM = new BABYLON.Texture("Images/linkS.png", scene);
+            textureM.wrapU = BABYLON.Texture.CLAMP_ADDRESSMODE;
+            textureM.wrapV = BABYLON.Texture.CLAMP_ADDRESSMODE;
+            var spriteMenu = new BABYLON.Sprite2D(textureM, {
+                parent: canvas,
+                id: "sora",
+                marginAlignment: "h: center, v: center",
+                size: new BABYLON.Size(size.clientWidth,size.clientHeight),
+                children:
+                    [
+                        new BABYLON.Text2D("Link Start!", { fontName: "40pt Arial", marginAlignment: "h: center, v: center" }),
+
+                    ]
+            });
+
+
+            spriteMenu.pointerEventObservable.add(function (d, s) {
+                spriteMenu.levelVisible = !spriteMenu.levelVisible;
+                var music = new BABYLON.Sound("Music", "sao.mp3",scene, null, {loop: false, autoplay: true, useCustomAttenuation: true});
+                window.setTimeout(function () {
+                    var music = new BABYLON.Sound("Music", "Sources/theme.mp3",scene, null, {loop: true, autoplay: true, useCustomAttenuation: true});
+                },2000);
+            }, BABYLON.PrimitivePointerInfo.PointerUp);
+
+            return canvas;
+        };
+
+
+//========================================= End of Start Menu ==========================================================
+
+
+
+
+//========================================== Death Menu ================================================================
+
+
+var deathMenu = function(scene){
+    var size = document.getElementById("myCanvas");
+    var canvas = new BABYLON.ScreenSpaceCanvas2D(scene,{
+        id: "cameraCanvas",
+        backgroundFill: "#00000000",
+        size: new BABYLON.Size(size.clientWidth,size.clientHeight)
+    });
+
+    var textureM = new BABYLON.Texture("Sources/deathPlayer.png", scene);
+    textureM.wrapU = BABYLON.Texture.CLAMP_ADDRESSMODE;
+    textureM.wrapV = BABYLON.Texture.CLAMP_ADDRESSMODE;
+    var spriteMenu = new BABYLON.Sprite2D(textureM, {
+        parent: canvas,
+        id: "sora",
+        marginAlignment: "h: center, v: center",
+        size: new BABYLON.Size(size.clientWidth,size.clientHeight),
+
+       });
+
+    spriteMenu.pointerEventObservable.add(function (d, s) {
+        spriteMenu.levelVisible = !spriteMenu.levelVisible;
+
+            location.reload();
+
+    }, BABYLON.PrimitivePointerInfo.PointerUp);
+
+    return canvas;
+};
+
+
+//========================================= End of Death Menu ==========================================================
+
+
+//========================================== Win Menu ================================================================
+
+
+            var winMenu = function(scene){
+                var size = document.getElementById("myCanvas");
+                var canvas = new BABYLON.ScreenSpaceCanvas2D(scene,{
+                    id: "cameraCanvas",
+                    backgroundFill: "#00000000",
+                    size: new BABYLON.Size(size.clientWidth,size.clientHeight)
+                });
+
+                var textureM = new BABYLON.Texture("Images/aincrad.jpg", scene);
+                textureM.wrapU = BABYLON.Texture.CLAMP_ADDRESSMODE;
+                textureM.wrapV = BABYLON.Texture.CLAMP_ADDRESSMODE;
+                var spriteMenu = new BABYLON.Sprite2D(textureM, {
+                    parent: canvas,
+                    id: "sora",
+                    marginAlignment: "h: center, v: center",
+                    size: new BABYLON.Size(size.clientWidth,size.clientHeight),
+                    children:
+                        [
+                            new BABYLON.Text2D("Floor Cleared!", { fontName: "40pt Arial", marginAlignment: "h: center, v: center" })
+                        ]});
+
+                spriteMenu.pointerEventObservable.add(function (d, s) {
+                    spriteMenu.levelVisible = !spriteMenu.levelVisible;
+                    window.setTimeout(function () {
+                        location.reload()
+                    },5000);
+                }, BABYLON.PrimitivePointerInfo.PointerUp);
+
+                return canvas;
+            };
+
+//            var winMenu = function(scene){
+//                var size = document.getElementById("myCanvas");
+//                var canvas = new BABYLON.ScreenSpaceCanvas2D(scene,{
+//                    id: "cameraCanvas",
+//                    backgroundFill: "#00000000",
+//                    size: new BABYLON.Size(size.clientWidth,size.clientHeight)
+//                });
+//
+//                var textureW = new BABYLON.Texture("Images/aincrad.jpg", scene);
+//                textureW.wrapU = BABYLON.Texture.CLAMP_ADDRESSMODE;
+//                textureW.wrapV = BABYLON.Texture.CLAMP_ADDRESSMODE;
+//                var spriteMenuW = new BABYLON.Sprite2D(textureW, {
+//                    parent: canvas,
+//                    id: "sora3",
+//                    marginAlignment: "h: center, v: center",
+//                    size: new BABYLON.Size(size.clientWidth,size.clientHeight),
+//                    children:
+//                        [
+//                            new BABYLON.Text2D("You Win!", { fontName: "40pt Arial", marginAlignment: "h: center, v: center" })
+//                        ]
+//                });
+//
+//                spriteMenuW.pointerEventObservable.add(function (d, s) {
+//                    spriteMenuW.levelVisible = !spriteMenuW.levelVisible;
+//                    location.reload();
+//
+//                }, BABYLON.PrimitivePointerInfo.PointerUp);
+//
+//                return canvas;
+//            };
+
+
+//========================================= End of Win Menu ==========================================================
+
+
+
+
+
+
+
+
+
+
+
+
+//======================================== Declarations ================================================================
+
+        var playerposx;
+        var playerposz;
+        var model;
+        var d;
+        var flagD = false;
+        var enemySpeed = 0.1;
+        var rotate;
+        var xDiff;
+        var zDiff;
+
+        var flagR = false;
+        var total;
+
+        var distance;
+        var wolf;
+        var box;
+        var box2;
+        var globalSkele;
+        var globalSkele1;
+
+        var attack = false;
+        var attack2 = false;
+        mainMenu(scene);
+
+        var animationState = false;
+        var attackState = false;
+
+
+
+        function startAttack() {
+            if(!attackState){
+                attackState = true;
+                scene.beginAnimation(globalSkele, 21, 40, true, 1.0);
+            }
+        };
+        function startAnimation() {
+            if(!animationState){
+                animationState = true;
+                scene.beginAnimation(globalSkele, 1, 20, true, 1.0);
+            }
+        };
+
+
+
+//===================================== End of Declarations ============================================================
+
+
+
+//=============================== Creating Character ===================================================================
+
+        BABYLON.SceneLoader.ImportMesh("","", "untitled.babylon", scene, function (newMeshes, particleSystems, skeletons) {
+            model = newMeshes[0];
+            globalSkele = skeletons[0];
+            scene.beginAnimation(globalSkele, 0, 0, false, 1.0);
+            model.position = new BABYLON.Vector3(0, -70.65, 0);
+            model.scaling = new BABYLON.Vector3(3, 3, 3);
+
+
+
+            box2 = BABYLON.MeshBuilder.CreateBox("box2", {width: 0.5, height: 0.5}, scene);
+            box2.parent = model;
+            box2.scaling = new BABYLON.Vector3(0.2,0.2,0.8);
+            box2.position = new BABYLON.Vector3(0,-0.25,-0.9);
+            box2.isVisible = false;
+
+
+//========================================= In Game Menu ===============================================================
+
+            var gameMenu = function(scene){
+                var size = document.getElementById("myCanvas");
+                var canvas = new BABYLON.ScreenSpaceCanvas2D(scene,{
+                    id: "cameraCanvas",
+//                size: new BABYLON.Size(size.clientWidth,size.clientHeight)
+                });
+                var textureGM = new BABYLON.Texture("", scene);
+                textureGM.wrapU = BABYLON.Texture.CLAMP_ADDRESSMODE;
+                textureGM.wrapV = BABYLON.Texture.CLAMP_ADDRESSMODE;
+                var spriteMenu = new BABYLON.Sprite2D(textureGM, {
+                    parent: canvas,
+                    id: "sora",
+                    marginAlignment: "h: center, v: center",
+                    isVisible: true,
+                    y: 250, width: 200, height: 80,
+                    children:
+                        [
+                            new BABYLON.Text2D("Select Difficulty:", { fontName: "40pt Arial", marginAlignment: "h: center, v: center" })
+                        ]});
+
+
+                var button1Rect = new BABYLON.Rectangle2D(
+                    { parent: canvas, id: "button1", width: 200, height: 80, fill: "#4040C0FF",marginAlignment: "h: left, v: center",
+                        roundRadius: 10,
+                        isVisible: true,
+                        children:
+                            [
+                                new BABYLON.Text2D("Easy", { fontName: "30pt Arial", marginAlignment: "h: center, v: center" })
+                            ]});
+
+                var button2Rect = new BABYLON.Rectangle2D(
+                    { parent: canvas, id: "button2", width: 200, height: 80, fill: "#4040C0FF",marginAlignment: "h: center, v: center",
+                        roundRadius: 10,
+                        isVisible: true,
+                        children:
+                            [
+                                new BABYLON.Text2D("Medium", { fontName: "30pt Arial", marginAlignment: "h: center, v: center" })
+                            ]});
+
+                var button3Rect = new BABYLON.Rectangle2D(
+                    { parent: canvas, id: "button3",  width: 200, height: 80, fill: "#4040C0FF", marginAlignment: "h: right, v: center",
+                        roundRadius: 10,
+                        isVisible: true,
+                        children:
+                            [
+                                new BABYLON.Text2D("Hard", { fontName: "30pt Arial", marginAlignment: "h: center, v: center" })
+                            ]});
+
+
+
+
+//====================================== Difficulty Easy ===============================================================
+
+
+
+
+                button1Rect.pointerEventObservable.add(function (d, s) {
+                    spriteMenu.levelVisible = !spriteMenu.levelVisible;
+                    button1Rect.levelVisible = !button1Rect.levelVisible;
+                    button2Rect.levelVisible = !button2Rect.levelVisible;
+                    button3Rect.levelVisible = !button3Rect.levelVisible;
+
+
+
+//===================================== Create Enemy ===================================================================
+
+
+
+
+                    BABYLON.SceneLoader.ImportMesh("","", "wolf.babylon", scene, function (newMeshes, particleSystems, skeletons) {
+                        var music = new BABYLON.Sound("Music", "Sources/Howl.wav",scene, null, {loop: false, autoplay: true, useCustomAttenuation: true});
+                        wolf = newMeshes[0];
+                        globalSkele1 = skeletons[0];
+                        scene.beginAnimation(globalSkele1, 10, 60, true, 1.0);
+
+                        wolf.position = new BABYLON.Vector3(25,-75.07,30);
+                        wolf.scaling = new BABYLON.Vector3(10,10,10);
+
+                        box = BABYLON.MeshBuilder.CreateBox("box", {width: 0.5, height: 0.5, depth: 0.2}, scene);
+                        box.parent = wolf;
+                        box.scaling = new BABYLON.Vector3(0.2,0.2,0.2);
+                        box.position = new BABYLON.Vector3(0,0.6,-0.6);
+                        box.isVisible = false;
+
+
+//=============================================== Character Health Bar InGame ==========================================
+
+
+                        var healthBarMaterial = new BABYLON.StandardMaterial("hb1mat", scene);
+                        healthBarMaterial.diffuseColor = BABYLON.Color3.Green();
+                        healthBarMaterial.backFaceCulling = false;
+
+                        var healthBarContainerMaterial = new BABYLON.StandardMaterial("hb2mat", scene);
+                        healthBarContainerMaterial.diffuseColor = BABYLON.Color3.Black();
+                        healthBarContainerMaterial.backFaceCulling = false;
+
+                        var dynamicTexture = new BABYLON.DynamicTexture("dt1", 512, scene, true);
+                        dynamicTexture.hasAlpha = true;
+
+                        var healthBarTextMaterial = new BABYLON.StandardMaterial("hb3mat", scene);
+                        healthBarTextMaterial.diffuseTexture = dynamicTexture;
+                        healthBarTextMaterial.backFaceCulling = false;
+                        healthBarTextMaterial.diffuseColor = BABYLON.Color3.Green();
+
+                        // Name
+                        var hBar = BABYLON.Mesh.CreatePlane("hbar", 10, scene,false);
+                        hBar.billboardMode = BABYLON.AbstractMesh.BILLBOARDMODE_ALL;
+                        hBar.material = new BABYLON.StandardMaterial("hb",scene);
+                        hBar.position.y = 2.0;
+                        hBar.parent = model;
+
+                        var hBarTexture = new BABYLON.DynamicTexture("dyn",512,scene, true);
+                        hBar.material.diffuseTexture = hBarTexture;
+                        hBar.material.specularColor = new BABYLON.Color3(0,0,0);
+                        hBar.material.specularColor = new BABYLON.Color3(1,1,1);
+                        hBar.material.backFaceCulling = false;
+
+
+                        hBarTexture.drawText("Kirito", null, 300, "bold 24px timesnewroman", "white");
+                        hBarTexture.hasAlpha = true;
+
+
+                        var healthBar = BABYLON.MeshBuilder.CreatePlane("hb1", {width:2, height:.5, subdivisions:4}, scene);
+                        var healthBar1 = BABYLON.MeshBuilder.CreatePlane("hb4", {width:2, height:.5, subdivisions:4}, scene);
+                        var healthBarContainer = BABYLON.MeshBuilder.CreatePlane("hb2", { width: 2, height: .5, subdivisions: 4 }, scene);
+                        var healthBarText = BABYLON.MeshBuilder.CreatePlane("hb3", { width: 2, height: 2, subdivisions: 4 }, scene);
+                        healthBarText.material = healthBarMaterial;
+
+                        healthBarContainer.billboardMode = BABYLON.AbstractMesh.BILLBOARDMODE_ALL;
+
+                        // Remove flickers
+                        healthBar.position = new BABYLON.Vector3(0, 0, -.01);
+                        healthBar1.position = new BABYLON.Vector3(0, 0, .01);
+                        // Position it above model
+                        healthBarContainer.position = new BABYLON.Vector3(0, 1.5, 0);
+                        healthBarText.position = new BABYLON.Vector3(-1.5, -.4, 0);
+
+                        healthBar.parent = healthBarContainer;
+                        healthBar1.parent = healthBarContainer;
+                        healthBarContainer.parent = model;
+                        healthBarText.parent = healthBarContainer;
+
+                        healthBar.material = healthBarMaterial;
+                        healthBar1.material = healthBarMaterial;
+                        healthBarContainer.material = healthBarContainerMaterial;
+                        healthBarText.material = healthBarTextMaterial;
+
+
+                        var alive = true;
+                        var healthPercentage = 100;
+
+
+//===================================== End of Character Health Bar InGame =============================================
+
+
+
+
+
+//=============================================== Enemy Health Bar =====================================================
+
+
+                        var healthBarMaterial2 = new BABYLON.StandardMaterial("hb12mat", scene);
+                        healthBarMaterial2.diffuseColor = BABYLON.Color3.Green();
+                        healthBarMaterial2.backFaceCulling = false;
+
+                        var healthBarContainerMaterial2 = new BABYLON.StandardMaterial("hb22mat", scene);
+                        healthBarContainerMaterial2.diffuseColor = BABYLON.Color3.Black();
+                        healthBarContainerMaterial2.backFaceCulling = false;
+
+                        var dynamicTexture2 = new BABYLON.DynamicTexture("dt1", 512, scene, true);
+                        dynamicTexture2.hasAlpha = true;
+
+                        var healthBarTextMaterial2 = new BABYLON.StandardMaterial("hb32mat", scene);
+                        healthBarTextMaterial2.diffuseTexture = dynamicTexture2;
+                        healthBarTextMaterial2.backFaceCulling = false;
+                        healthBarTextMaterial2.diffuseColor = BABYLON.Color3.Green();
+
+                        var hBar2 = BABYLON.Mesh.CreatePlane("hbar", 10, scene,false);
+                        hBar2.billboardMode = BABYLON.AbstractMesh.BILLBOARDMODE_ALL;
+                        hBar2.material = new BABYLON.StandardMaterial("hb",scene);
+                        hBar2.position.y = 0.85;
+                        hBar2.parent = wolf;
+
+                        var hBarTexture2 = new BABYLON.DynamicTexture("dyn",512,scene, true);
+                        hBar2.material.diffuseTexture = hBarTexture2;
+                        hBar2.material.specularColor = new BABYLON.Color3(0,0,0);
+                        hBar2.material.specularColor = new BABYLON.Color3(1,1,1);
+                        hBar2.material.backFaceCulling = false;
+
+
+                        hBarTexture2.drawText("Wolf", null, 300, "bold 24px timesnewroman", "white");
+                        hBarTexture2.hasAlpha = true;
+
+
+                        var healthBar2 = BABYLON.MeshBuilder.CreatePlane("hb12", {width:2, height:.5, subdivisions:4}, scene);
+                        var healthBar12 = BABYLON.MeshBuilder.CreatePlane("hb42", {width:2, height:.5, subdivisions:4}, scene);
+                        var healthBarContainer2 = BABYLON.MeshBuilder.CreatePlane("hb22", { width: 2, height: .5, subdivisions: 4 }, scene);
+                        var healthBarText2 = BABYLON.MeshBuilder.CreatePlane("hb32", { width: 2, height: 2, subdivisions: 4 }, scene);
+                        healthBarText2.material = healthBarMaterial2;
+
+                        healthBarContainer2.billboardMode = BABYLON.AbstractMesh.BILLBOARDMODE_ALL;
+
+
+                        healthBar2.position = new BABYLON.Vector3(0, 0, -.01);
+                        healthBar12.position = new BABYLON.Vector3(0, 0, .01);
+                        healthBarContainer2.position = new BABYLON.Vector3(0, 0.7, 0);
+                        healthBarText2.position = new BABYLON.Vector3(-1.5, -.4, 0);
+
+                        healthBar2.parent = healthBarContainer2;
+                        healthBar12.parent = healthBarContainer2;
+                        healthBarContainer2.parent = wolf;
+                        healthBarText2.parent = healthBarContainer2;
+
+                        healthBar2.material = healthBarMaterial2;
+                        healthBar12.material = healthBarMaterial2;
+                        healthBarContainer2.material = healthBarContainerMaterial2;
+                        healthBarText2.material = healthBarTextMaterial2;
+
+
+                        var alive2 = true;
+                        var healthPercentage2 = 100;
+
+
+//===================================== End of Enemy Health Bar ========================================================
+
+
+
+
+
+//==================================== RegisterBeforeRender ============================================================
+
+
+                        scene.registerBeforeRender(function () {
+
+
+//==================================== Checking Character Health =======================================================
+                            if (alive) {
+
+                                // Re-calculate healthbar length.
+                                healthBar.scaling.x = healthPercentage / 100;
+                                healthBar.position.x = (1 - (healthPercentage / 100)) * -1;
+                                healthBar1.scaling.x = healthPercentage / 100;
+                                healthBar1.position.x = (1 - (healthPercentage / 100)) * -1;
+
+                                if (healthBar.scaling.x == 0 || healthBar.scaling.x < 0) {
+                                    alive = false;
+                                }
+                                else if (healthBar.scaling.x <= .5) {
+                                    healthBarMaterial.diffuseColor = BABYLON.Color3.Yellow();
+                                    healthBarTextMaterial.diffuseColor = BABYLON.Color3.Yellow();
+                                    if (healthBar.scaling.x <= .3) {
+                                        healthBarMaterial.diffuseColor = BABYLON.Color3.Red();
+                                        healthBarTextMaterial.diffuseColor = BABYLON.Color3.Red();
+                                    }
+
+                                }
+                            }
+
+                            // Display Health Percentage.
+                            // - Only update display if whole number.
+                            if (alive == true) {
+                                var textureContext = dynamicTexture.getContext();
+                                var size = dynamicTexture.getSize();
+                                var text = Math.round(healthPercentage) + "%  ";
+                                textureContext.clearRect(0, 0, size.width, size.height);
+
+                                textureContext.font = "bold 120px Calibri";
+                                var textSize = textureContext.measureText(text);
+                                textureContext.fillStyle = "white";
+                                textureContext.fillText(text, (size.width - textSize.width) / 2, (size.height - 120) / 2);
+
+                                dynamicTexture.update();
+                            }
+//============================== End of Checking Character Health ======================================================
+
+
+
+
+//==================================== Checking Enemy Health ===========================================================
+                            if (alive2) {
+
+                                // Re-calculate healthbar length.
+                                healthBar2.scaling.x = healthPercentage2 / 100;
+                                healthBar2.position.x = (1 - (healthPercentage2 / 100)) * -1;
+                                healthBar12.scaling.x = healthPercentage2 / 100;
+                                healthBar12.position.x = (1 - (healthPercentage2 / 100)) * -1;
+
+                                if (healthBar2.scaling.x == 0 || healthBar2.scaling.x < 0) {
+                                    alive2 = false;
+                                }
+                                else if (healthBar2.scaling.x <= .5) {
+                                    healthBarMaterial2.diffuseColor = BABYLON.Color3.Yellow();
+                                    healthBarTextMaterial2.diffuseColor = BABYLON.Color3.Yellow();
+                                    if (healthBar2.scaling.x <= .3) {
+                                        healthBarMaterial2.diffuseColor = BABYLON.Color3.Red();
+                                        healthBarTextMaterial2.diffuseColor = BABYLON.Color3.Red();
+                                    }
+
+                                }
+                            }
+
+                            // Display Health Percentage.
+                            // - Only update display if whole number.
+                            if (alive2 == true) {
+                                var textureContext2 = dynamicTexture2.getContext();
+                                var size2 = dynamicTexture2.getSize();
+                                var text2 = Math.round(healthPercentage2) + "%  ";
+                                textureContext2.clearRect(0, 0, size2.width, size2.height);
+
+                                textureContext2.font = "bold 120px Calibri";
+                                var textSize2 = textureContext2.measureText(text2);
+                                textureContext2.fillStyle = "white";
+                                textureContext2.fillText(text2, (size2.width - textSize2.width) / 2, (size2.height - 120) / 2);
+
+                                dynamicTexture2.update();
+                            }
+//============================== End of Checking Enemy Health ==========================================================
+
+
+//============================================ Enemy Damage ============================================================
+
+
+                            if (box.intersectsMesh(model, false) && !attack && alive2 == true) {
+                                if(attack == false){
+                                    healthPercentage -= 2;
+                                    attack = true;
+                                }
+                                window.setTimeout(function () {
+                                    var music = new BABYLON.Sound("Music", "Sources/Bite.wav",scene, null, {loop: false, autoplay: true, useCustomAttenuation: true});
+                                    attack = false;
+                                },1000);
+                            }
+
+
+//
+//=================================== End of Enemy Damage ==============================================================
+
+
+
+
+//============================== Player Damage =========================================================================
+
+                        if(attackState == true){
+                            if (box2.intersectsMesh(wolf, false) && !attack2) {
+                                if(attack2 == false){
+                                    healthPercentage2 -= 10;
+                                    attack2 = true;
+                                }
+                                window.setTimeout(function () {
+                                    attack2 = false;
+                                },800);
+                            }
+                        }
+
+
+//================================ End of Player Damage ================================================================
+
+
+
+
+
+
+//
+//
+                  if (alive == false){
+                        deathMenu(scene);
+
+                }
+
+                if(alive2 == false){
+
+                      wolf.dispose();
+                      box.dispose();
+                      attack2 = true;
+                    winMenu(scene);
+
+                }
+
+
+
+//=================================== Character Out of Arena ===========================================================
+
+
+                            d = Math.sqrt(model.position.x * model.position.x + model.position.z * model.position.z);
+                            if (d > 150 || flagD) {
+                                model.position.y -= 0.5;
+                                flagD = true;
+                                healthPercentage -= 0.5;
+                                window.setTimeout(function () {
+                                    deathMenu(scene);
+                                },3000);
+                            }
+
+
+//=============================== End of Character Out of Arena ========================================================
+
+
+
+//=============================== Enemy Chasing Character ==============================================================
+
+
+                            if(alive != false) {
+                                xDiff = model.position.x - wolf.position.x ;
+                                zDiff = model.position.z - wolf.position.z ;
+                                rotate = Math.atan2(zDiff, xDiff) ;
+                                distance = Math.sqrt(xDiff*xDiff + zDiff * zDiff);
+                                playerposx = model.position.x;
+                                playerposz = model.position.z;
+                                wolf.rotation.y = rotate * -1 -Math.PI/2;
+
+                                if(distance>6 && distance<50) {
+
+
+                                    if (wolf.position.x > playerposx) {
+                                        wolf.position.x -= enemySpeed;
+                                    }
+
+                                    else if (wolf.position.x < playerposx) {
+                                        wolf.position.x += enemySpeed;
+
+                                    }
+
+                                    if (wolf.position.z > playerposz) {
+                                        wolf.position.z -= enemySpeed;
+
+                                    }
+
+                                    else if (wolf.position.z < playerposz) {
+                                        wolf.position.z += enemySpeed;
+                                    }
+
+
+                                }
+
+                            }
+
+//==================================== End of Enemy Chasing Character ==================================================
+
+                        });
+//
+
+//========================================= End of BeforeRunRender =====================================================
+
+
+
+
+
+                    });
+
+
+
+
+
+
+//=================================== End of Enemy =====================================================================
+
+
+                }, BABYLON.PrimitivePointerInfo.PointerUp);
+
+//=================================== End of Easy Difficulty ===========================================================
+
+
+
+
+
+
+
+
+
+                button2Rect.pointerEventObservable.add(function (d, s) {
+                    spriteMenu.levelVisible = !spriteMenu.levelVisible;
+                    button1Rect.levelVisible = !button1Rect.levelVisible;
+                    button2Rect.levelVisible = !button2Rect.levelVisible;
+                    button3Rect.levelVisible = !button3Rect.levelVisible;
+
+//=================================== Medium Difficulty ================================================================
+
+
+ //===================================== Create Enemy ===================================================================
+
+
+
+
+                    BABYLON.SceneLoader.ImportMesh("","", "wolf.babylon", scene, function (newMeshes, particleSystems, skeletons) {
+                        var music2 = new BABYLON.Sound("Music2", "Sources/Howl.wav",scene, null, {loop: false, autoplay: true, useCustomAttenuation: true});
+                        wolf = newMeshes[0];
+                        globalSkele1 = skeletons[0];
+                        scene.beginAnimation(globalSkele1, 10, 60, true, 1.0);
+
+                        wolf.position = new BABYLON.Vector3(0,-75.07,30);
+                        wolf.scaling = new BABYLON.Vector3(15,15,10);
+
+                        box = BABYLON.MeshBuilder.CreateBox("box", {width: 0.5, height: 0.5, depth: 0.2}, scene);
+                        box.parent = wolf;
+                        box.scaling = new BABYLON.Vector3(0.2,0.2,0.2);
+                        box.position = new BABYLON.Vector3(0,0.6,-0.6);
+                        box.isVisible = false;
+
+
+//=============================================== Character Health Bar InGame ==========================================
+
+
+                        var healthBarMaterial = new BABYLON.StandardMaterial("hb1mat", scene);
+                        healthBarMaterial.diffuseColor = BABYLON.Color3.Green();
+                        healthBarMaterial.backFaceCulling = false;
+
+                        var healthBarContainerMaterial = new BABYLON.StandardMaterial("hb2mat", scene);
+                        healthBarContainerMaterial.diffuseColor = BABYLON.Color3.Black();
+                        healthBarContainerMaterial.backFaceCulling = false;
+
+                        var dynamicTexture = new BABYLON.DynamicTexture("dt1", 512, scene, true);
+                        dynamicTexture.hasAlpha = true;
+
+                        var healthBarTextMaterial = new BABYLON.StandardMaterial("hb3mat", scene);
+                        healthBarTextMaterial.diffuseTexture = dynamicTexture;
+                        healthBarTextMaterial.backFaceCulling = false;
+                        healthBarTextMaterial.diffuseColor = BABYLON.Color3.Green();
+
+                        // Name
+                        var hBar = BABYLON.Mesh.CreatePlane("hbar", 10, scene,false);
+                        hBar.billboardMode = BABYLON.AbstractMesh.BILLBOARDMODE_ALL;
+                        hBar.material = new BABYLON.StandardMaterial("hb",scene);
+                        hBar.position.y = 2.0;
+                        hBar.parent = model;
+
+                        var hBarTexture = new BABYLON.DynamicTexture("dyn",512,scene, true);
+                        hBar.material.diffuseTexture = hBarTexture;
+                        hBar.material.specularColor = new BABYLON.Color3(0,0,0);
+                        hBar.material.specularColor = new BABYLON.Color3(1,1,1);
+                        hBar.material.backFaceCulling = false;
+
+
+                        hBarTexture.drawText("Kirito", null, 300, "bold 24px timesnewroman", "white");
+                        hBarTexture.hasAlpha = true;
+
+
+                        var healthBar = BABYLON.MeshBuilder.CreatePlane("hb1", {width:2, height:.5, subdivisions:4}, scene);
+                        var healthBar1 = BABYLON.MeshBuilder.CreatePlane("hb4", {width:2, height:.5, subdivisions:4}, scene);
+                        var healthBarContainer = BABYLON.MeshBuilder.CreatePlane("hb2", { width: 2, height: .5, subdivisions: 4 }, scene);
+                        var healthBarText = BABYLON.MeshBuilder.CreatePlane("hb3", { width: 2, height: 2, subdivisions: 4 }, scene);
+                        healthBarText.material = healthBarMaterial;
+
+                        healthBarContainer.billboardMode = BABYLON.AbstractMesh.BILLBOARDMODE_ALL;
+
+                        // Remove flickers
+                        healthBar.position = new BABYLON.Vector3(0, 0, -.01);
+                        healthBar1.position = new BABYLON.Vector3(0, 0, .01);
+                        // Position it above model
+                        healthBarContainer.position = new BABYLON.Vector3(0, 1.5, 0);
+                        healthBarText.position = new BABYLON.Vector3(-1.5, -.4, 0);
+
+                        healthBar.parent = healthBarContainer;
+                        healthBar1.parent = healthBarContainer;
+                        healthBarContainer.parent = model;
+                        healthBarText.parent = healthBarContainer;
+
+                        healthBar.material = healthBarMaterial;
+                        healthBar1.material = healthBarMaterial;
+                        healthBarContainer.material = healthBarContainerMaterial;
+                        healthBarText.material = healthBarTextMaterial;
+
+
+                        var alive = true;
+                        var healthPercentage = 100;
+
+
+//===================================== End of Character Health Bar InGame =============================================
+
+
+
+
+
+//=============================================== Enemy Health Bar =====================================================
+
+
+                        var healthBarMaterial2 = new BABYLON.StandardMaterial("hb12mat", scene);
+                        healthBarMaterial2.diffuseColor = BABYLON.Color3.Green();
+                        healthBarMaterial2.backFaceCulling = false;
+
+                        var healthBarContainerMaterial2 = new BABYLON.StandardMaterial("hb22mat", scene);
+                        healthBarContainerMaterial2.diffuseColor = BABYLON.Color3.Black();
+                        healthBarContainerMaterial2.backFaceCulling = false;
+
+                        var dynamicTexture2 = new BABYLON.DynamicTexture("dt1", 512, scene, true);
+                        dynamicTexture2.hasAlpha = true;
+
+                        var healthBarTextMaterial2 = new BABYLON.StandardMaterial("hb32mat", scene);
+                        healthBarTextMaterial2.diffuseTexture = dynamicTexture2;
+                        healthBarTextMaterial2.backFaceCulling = false;
+                        healthBarTextMaterial2.diffuseColor = BABYLON.Color3.Green();
+
+                        var hBar2 = BABYLON.Mesh.CreatePlane("hbar", 10, scene,false);
+                        hBar2.billboardMode = BABYLON.AbstractMesh.BILLBOARDMODE_ALL;
+                        hBar2.material = new BABYLON.StandardMaterial("hb",scene);
+                        hBar2.position.y = 0.85;
+                        hBar2.parent = wolf;
+
+                        var hBarTexture2 = new BABYLON.DynamicTexture("dyn",512,scene, true);
+                        hBar2.material.diffuseTexture = hBarTexture2;
+                        hBar2.material.specularColor = new BABYLON.Color3(0,0,0);
+                        hBar2.material.specularColor = new BABYLON.Color3(1,1,1);
+                        hBar2.material.backFaceCulling = false;
+
+
+                        hBarTexture2.drawText("Wolf", null, 300, "bold 24px timesnewroman", "white");
+                        hBarTexture2.hasAlpha = true;
+
+
+                        var healthBar2 = BABYLON.MeshBuilder.CreatePlane("hb12", {width:2, height:.5, subdivisions:4}, scene);
+                        var healthBar12 = BABYLON.MeshBuilder.CreatePlane("hb42", {width:2, height:.5, subdivisions:4}, scene);
+                        var healthBarContainer2 = BABYLON.MeshBuilder.CreatePlane("hb22", { width: 2, height: .5, subdivisions: 4 }, scene);
+                        var healthBarText2 = BABYLON.MeshBuilder.CreatePlane("hb32", { width: 2, height: 2, subdivisions: 4 }, scene);
+                        healthBarText2.material = healthBarMaterial2;
+
+                        healthBarContainer2.billboardMode = BABYLON.AbstractMesh.BILLBOARDMODE_ALL;
+
+
+                        healthBar2.position = new BABYLON.Vector3(0, 0, -.01);
+                        healthBar12.position = new BABYLON.Vector3(0, 0, .01);
+                        healthBarContainer2.position = new BABYLON.Vector3(0, 0.7, 0);
+                        healthBarText2.position = new BABYLON.Vector3(-1.5, -.4, 0);
+
+                        healthBar2.parent = healthBarContainer2;
+                        healthBar12.parent = healthBarContainer2;
+                        healthBarContainer2.parent = wolf;
+                        healthBarText2.parent = healthBarContainer2;
+
+                        healthBar2.material = healthBarMaterial2;
+                        healthBar12.material = healthBarMaterial2;
+                        healthBarContainer2.material = healthBarContainerMaterial2;
+                        healthBarText2.material = healthBarTextMaterial2;
+
+
+                        var alive2 = true;
+                        var healthPercentage2 = 100;
+
+
+//===================================== End of Enemy Health Bar ========================================================
+
+
+
+
+
+//==================================== RegisterBeforeRender ============================================================
+
+
+                        scene.registerBeforeRender(function () {
+
+
+//==================================== Checking Character Health =======================================================
+                            if (alive) {
+
+                                // Re-calculate healthbar length.
+                                healthBar.scaling.x = healthPercentage / 100;
+                                healthBar.position.x = (1 - (healthPercentage / 100)) * -1;
+                                healthBar1.scaling.x = healthPercentage / 100;
+                                healthBar1.position.x = (1 - (healthPercentage / 100)) * -1;
+
+                                if (healthBar.scaling.x == 0 || healthBar.scaling.x < 0) {
+                                    alive = false;
+                                }
+                                else if (healthBar.scaling.x <= .5) {
+                                    healthBarMaterial.diffuseColor = BABYLON.Color3.Yellow();
+                                    healthBarTextMaterial.diffuseColor = BABYLON.Color3.Yellow();
+                                    if (healthBar.scaling.x <= .3) {
+                                        healthBarMaterial.diffuseColor = BABYLON.Color3.Red();
+                                        healthBarTextMaterial.diffuseColor = BABYLON.Color3.Red();
+                                    }
+
+                                }
+                            }
+
+                            // Display Health Percentage.
+                            // - Only update display if whole number.
+                            if (alive == true) {
+                                var textureContext = dynamicTexture.getContext();
+                                var size = dynamicTexture.getSize();
+                                var text = Math.round(healthPercentage) + "%  ";
+                                textureContext.clearRect(0, 0, size.width, size.height);
+
+                                textureContext.font = "bold 120px Calibri";
+                                var textSize = textureContext.measureText(text);
+                                textureContext.fillStyle = "white";
+                                textureContext.fillText(text, (size.width - textSize.width) / 2, (size.height - 120) / 2);
+
+                                dynamicTexture.update();
+                            }
+//============================== End of Checking Character Health ======================================================
+
+
+
+
+//==================================== Checking Enemy Health ===========================================================
+                            if (alive2) {
+
+                                // Re-calculate healthbar length.
+                                healthBar2.scaling.x = healthPercentage2 / 100;
+                                healthBar2.position.x = (1 - (healthPercentage2 / 100)) * -1;
+                                healthBar12.scaling.x = healthPercentage2 / 100;
+                                healthBar12.position.x = (1 - (healthPercentage2 / 100)) * -1;
+
+                                if (healthBar2.scaling.x == 0 || healthBar2.scaling.x < 0) {
+                                    alive2 = false;
+                                }
+                                else if (healthBar2.scaling.x <= .5) {
+                                    healthBarMaterial2.diffuseColor = BABYLON.Color3.Yellow();
+                                    healthBarTextMaterial2.diffuseColor = BABYLON.Color3.Yellow();
+                                    if (healthBar2.scaling.x <= .3) {
+                                        healthBarMaterial2.diffuseColor = BABYLON.Color3.Red();
+                                        healthBarTextMaterial2.diffuseColor = BABYLON.Color3.Red();
+                                    }
+
+                                }
+                            }
+
+                            // Display Health Percentage.
+                            // - Only update display if whole number.
+                            if (alive2 == true) {
+                                var textureContext2 = dynamicTexture2.getContext();
+                                var size2 = dynamicTexture2.getSize();
+                                var text2 = Math.round(healthPercentage2) + "%  ";
+                                textureContext2.clearRect(0, 0, size2.width, size2.height);
+
+                                textureContext2.font = "bold 120px Calibri";
+                                var textSize2 = textureContext2.measureText(text2);
+                                textureContext2.fillStyle = "white";
+                                textureContext2.fillText(text2, (size2.width - textSize2.width) / 2, (size2.height - 120) / 2);
+
+                                dynamicTexture2.update();
+                            }
+//============================== End of Checking Enemy Health ==========================================================
+
+
+//============================================ Enemy Damage ============================================================
+
+
+                            if (box.intersectsMesh(model, false) && !attack && alive2 == true) {
+                                if(attack == false){
+                                    healthPercentage -= 10;
+                                    attack = true;
+                                }
+                                window.setTimeout(function () {
+                                    var music3 = new BABYLON.Sound("Music3", "Sources/Bite.wav",scene, null, {loop: false, autoplay: true, useCustomAttenuation: true});
+                                    attack = false;
+                                },1000);
+                            }
+
+
+//
+//=================================== End of Enemy Damage ==============================================================
+
+
+
+
+//============================== Player Damage =========================================================================
+
+                            if(attackState == true){
+                                if (box2.intersectsMesh(wolf, false) && !attack2) {
+                                    if(attack2 == false){
+                                        healthPercentage2 -= 10;
+                                        attack2 = true;
+                                    }
+                                    window.setTimeout(function () {
+                                        attack2 = false;
+                                    },800);
+                                }
+                            }
+
+
+//================================ End of Player Damage ================================================================
+
+
+
+
+
+
+//
+//
+                            if (alive == false){
+
+                                deathMenu(scene);
+//                      window.setTimeout(function() {
+////                        location.reload();
+//                    }, 10000);
+                            }
+
+                            if(alive2 == false){
+
+                                wolf.dispose();
+                                box.dispose();
+                                attack2 = true;
+
+//                    var music5 = new BABYLON.Sound("Music5", "Sources/ending.mp3",scene, null, {loop: false, autoplay: true, useCustomAttenuation: true});
+                                winMenu(scene);
+
+                            }
+
+
+
+//=================================== Character Out of Arena ===========================================================
+
+
+                            d = Math.sqrt(model.position.x * model.position.x + model.position.z * model.position.z);
+                            if (d > 150 || flagD) {
+                                model.position.y -= 0.5;
+                                flagD = true;
+                                healthPercentage -= 0.5;
+                                window.setTimeout(function () {
+                                    deathMenu(scene);
+                                },3000);
+                            }
+
+
+//=============================== End of Character Out of Arena ========================================================
+
+
+
+//=============================== Enemy Chasing Character ==============================================================
+
+
+                            if(alive != false) {
+                                xDiff = model.position.x - wolf.position.x ;
+                                zDiff = model.position.z - wolf.position.z ;
+                                rotate = Math.atan2(zDiff, xDiff) ;
+                                distance = Math.sqrt(xDiff*xDiff + zDiff * zDiff);
+                                playerposx = model.position.x;
+                                playerposz = model.position.z;
+                                wolf.rotation.y = rotate * -1 -Math.PI/2;
+
+                                if(distance>6 && distance<50) {
+
+
+                                    if (wolf.position.x > playerposx) {
+                                        wolf.position.x -= enemySpeed;
+                                    }
+
+                                    else if (wolf.position.x < playerposx) {
+                                        wolf.position.x += enemySpeed;
+
+                                    }
+
+                                    if (wolf.position.z > playerposz) {
+                                        wolf.position.z -= enemySpeed;
+
+                                    }
+
+                                    else if (wolf.position.z < playerposz) {
+                                        wolf.position.z += enemySpeed;
+                                    }
+
+
+                                }
+
+                            }
+
+//==================================== End of Enemy Chasing Character ==================================================
+
+                        });
+//
+
+//========================================= End of BeforeRunRender =====================================================
+
+
+
+
+
+                    });
+
+
+
+
+
+
+//=================================== End of Enemy =====================================================================
+
+
+//================================== End of Medium Difficulty ==========================================================
+
+                }, BABYLON.PrimitivePointerInfo.PointerUp);
+
+
+
+
+
+                button3Rect.pointerEventObservable.add(function (d, s) {
+                    spriteMenu.levelVisible = !spriteMenu.levelVisible;
+                    button1Rect.levelVisible = !button1Rect.levelVisible;
+                    button2Rect.levelVisible = !button2Rect.levelVisible;
+                    button3Rect.levelVisible = !button3Rect.levelVisible;
+
+
+
+//=================================== Hard Difficulty ==================================================================
+
+//===================================== Create Enemy ===================================================================
+
+
+
+
+                    BABYLON.SceneLoader.ImportMesh("","", "wolf.babylon", scene, function (newMeshes, particleSystems, skeletons) {
+                        var music2 = new BABYLON.Sound("Music2", "Sources/Howl.wav",scene, null, {loop: false, autoplay: true, useCustomAttenuation: true});
+                        wolf = newMeshes[0];
+                        globalSkele1 = skeletons[0];
+                        scene.beginAnimation(globalSkele1, 10, 60, true, 1.0);
+
+                        wolf.position = new BABYLON.Vector3(0,-75.07,50);
+                        wolf.scaling = new BABYLON.Vector3(15,15,10);
+
+                        box = BABYLON.MeshBuilder.CreateBox("box", {width: 0.5, height: 0.5, depth: 0.2}, scene);
+                        box.parent = wolf;
+                        box.scaling = new BABYLON.Vector3(0.2,0.2,0.2);
+                        box.position = new BABYLON.Vector3(0,0.6,-0.6);
+                        box.isVisible = false;
+
+
+//=============================================== Character Health Bar InGame ==========================================
+
+
+                        var healthBarMaterial = new BABYLON.StandardMaterial("hb1mat", scene);
+                        healthBarMaterial.diffuseColor = BABYLON.Color3.Green();
+                        healthBarMaterial.backFaceCulling = false;
+
+                        var healthBarContainerMaterial = new BABYLON.StandardMaterial("hb2mat", scene);
+                        healthBarContainerMaterial.diffuseColor = BABYLON.Color3.Black();
+                        healthBarContainerMaterial.backFaceCulling = false;
+
+                        var dynamicTexture = new BABYLON.DynamicTexture("dt1", 512, scene, true);
+                        dynamicTexture.hasAlpha = true;
+
+                        var healthBarTextMaterial = new BABYLON.StandardMaterial("hb3mat", scene);
+                        healthBarTextMaterial.diffuseTexture = dynamicTexture;
+                        healthBarTextMaterial.backFaceCulling = false;
+                        healthBarTextMaterial.diffuseColor = BABYLON.Color3.Green();
+
+                        // Name
+                        var hBar = BABYLON.Mesh.CreatePlane("hbar", 10, scene,false);
+                        hBar.billboardMode = BABYLON.AbstractMesh.BILLBOARDMODE_ALL;
+                        hBar.material = new BABYLON.StandardMaterial("hb",scene);
+                        hBar.position.y = 2.0;
+                        hBar.parent = model;
+
+                        var hBarTexture = new BABYLON.DynamicTexture("dyn",512,scene, true);
+                        hBar.material.diffuseTexture = hBarTexture;
+                        hBar.material.specularColor = new BABYLON.Color3(0,0,0);
+                        hBar.material.specularColor = new BABYLON.Color3(1,1,1);
+                        hBar.material.backFaceCulling = false;
+
+
+                        hBarTexture.drawText("Kirito", null, 300, "bold 24px timesnewroman", "white");
+                        hBarTexture.hasAlpha = true;
+
+
+                        var healthBar = BABYLON.MeshBuilder.CreatePlane("hb1", {width:2, height:.5, subdivisions:4}, scene);
+                        var healthBar1 = BABYLON.MeshBuilder.CreatePlane("hb4", {width:2, height:.5, subdivisions:4}, scene);
+                        var healthBarContainer = BABYLON.MeshBuilder.CreatePlane("hb2", { width: 2, height: .5, subdivisions: 4 }, scene);
+                        var healthBarText = BABYLON.MeshBuilder.CreatePlane("hb3", { width: 2, height: 2, subdivisions: 4 }, scene);
+                        healthBarText.material = healthBarMaterial;
+
+                        healthBarContainer.billboardMode = BABYLON.AbstractMesh.BILLBOARDMODE_ALL;
+
+                        // Remove flickers
+                        healthBar.position = new BABYLON.Vector3(0, 0, -.01);
+                        healthBar1.position = new BABYLON.Vector3(0, 0, .01);
+                        // Position it above model
+                        healthBarContainer.position = new BABYLON.Vector3(0, 1.5, 0);
+                        healthBarText.position = new BABYLON.Vector3(-1.5, -.4, 0);
+
+                        healthBar.parent = healthBarContainer;
+                        healthBar1.parent = healthBarContainer;
+                        healthBarContainer.parent = model;
+                        healthBarText.parent = healthBarContainer;
+
+                        healthBar.material = healthBarMaterial;
+                        healthBar1.material = healthBarMaterial;
+                        healthBarContainer.material = healthBarContainerMaterial;
+                        healthBarText.material = healthBarTextMaterial;
+
+
+                        var alive = true;
+                        var healthPercentage = 100;
+
+
+//===================================== End of Character Health Bar InGame =============================================
+
+
+
+
+
+//=============================================== Enemy Health Bar =====================================================
+
+
+                        var healthBarMaterial2 = new BABYLON.StandardMaterial("hb12mat", scene);
+                        healthBarMaterial2.diffuseColor = BABYLON.Color3.Green();
+                        healthBarMaterial2.backFaceCulling = false;
+
+                        var healthBarContainerMaterial2 = new BABYLON.StandardMaterial("hb22mat", scene);
+                        healthBarContainerMaterial2.diffuseColor = BABYLON.Color3.Black();
+                        healthBarContainerMaterial2.backFaceCulling = false;
+
+                        var dynamicTexture2 = new BABYLON.DynamicTexture("dt1", 512, scene, true);
+                        dynamicTexture2.hasAlpha = true;
+
+                        var healthBarTextMaterial2 = new BABYLON.StandardMaterial("hb32mat", scene);
+                        healthBarTextMaterial2.diffuseTexture = dynamicTexture2;
+                        healthBarTextMaterial2.backFaceCulling = false;
+                        healthBarTextMaterial2.diffuseColor = BABYLON.Color3.Green();
+
+                        var hBar2 = BABYLON.Mesh.CreatePlane("hbar", 10, scene,false);
+                        hBar2.billboardMode = BABYLON.AbstractMesh.BILLBOARDMODE_ALL;
+                        hBar2.material = new BABYLON.StandardMaterial("hb",scene);
+                        hBar2.position.y = 0.85;
+                        hBar2.parent = wolf;
+
+                        var hBarTexture2 = new BABYLON.DynamicTexture("dyn",512,scene, true);
+                        hBar2.material.diffuseTexture = hBarTexture2;
+                        hBar2.material.specularColor = new BABYLON.Color3(0,0,0);
+                        hBar2.material.specularColor = new BABYLON.Color3(1,1,1);
+                        hBar2.material.backFaceCulling = false;
+
+
+                        hBarTexture2.drawText("Wolf", null, 300, "bold 24px timesnewroman", "white");
+                        hBarTexture2.hasAlpha = true;
+
+
+                        var healthBar2 = BABYLON.MeshBuilder.CreatePlane("hb12", {width:2, height:.5, subdivisions:4}, scene);
+                        var healthBar12 = BABYLON.MeshBuilder.CreatePlane("hb42", {width:2, height:.5, subdivisions:4}, scene);
+                        var healthBarContainer2 = BABYLON.MeshBuilder.CreatePlane("hb22", { width: 2, height: .5, subdivisions: 4 }, scene);
+                        var healthBarText2 = BABYLON.MeshBuilder.CreatePlane("hb32", { width: 2, height: 2, subdivisions: 4 }, scene);
+                        healthBarText2.material = healthBarMaterial2;
+
+                        healthBarContainer2.billboardMode = BABYLON.AbstractMesh.BILLBOARDMODE_ALL;
+
+
+                        healthBar2.position = new BABYLON.Vector3(0, 0, -.01);
+                        healthBar12.position = new BABYLON.Vector3(0, 0, .01);
+                        healthBarContainer2.position = new BABYLON.Vector3(0, 0.7, 0);
+                        healthBarText2.position = new BABYLON.Vector3(-1.5, -.4, 0);
+
+                        healthBar2.parent = healthBarContainer2;
+                        healthBar12.parent = healthBarContainer2;
+                        healthBarContainer2.parent = wolf;
+                        healthBarText2.parent = healthBarContainer2;
+
+                        healthBar2.material = healthBarMaterial2;
+                        healthBar12.material = healthBarMaterial2;
+                        healthBarContainer2.material = healthBarContainerMaterial2;
+                        healthBarText2.material = healthBarTextMaterial2;
+
+
+                        var alive2 = true;
+                        var healthPercentage2 = 100;
+
+
+//===================================== End of Enemy Health Bar ========================================================
+
+
+
+
+
+//==================================== RegisterBeforeRender ============================================================
+
+
+                        scene.registerBeforeRender(function () {
+
+
+//==================================== Checking Character Health =======================================================
+                            if (alive) {
+
+                                // Re-calculate healthbar length.
+                                healthBar.scaling.x = healthPercentage / 100;
+                                healthBar.position.x = (1 - (healthPercentage / 100)) * -1;
+                                healthBar1.scaling.x = healthPercentage / 100;
+                                healthBar1.position.x = (1 - (healthPercentage / 100)) * -1;
+
+                                if (healthBar.scaling.x == 0 || healthBar.scaling.x < 0) {
+                                    alive = false;
+                                }
+                                else if (healthBar.scaling.x <= .5) {
+                                    healthBarMaterial.diffuseColor = BABYLON.Color3.Yellow();
+                                    healthBarTextMaterial.diffuseColor = BABYLON.Color3.Yellow();
+                                    if (healthBar.scaling.x <= .3) {
+                                        healthBarMaterial.diffuseColor = BABYLON.Color3.Red();
+                                        healthBarTextMaterial.diffuseColor = BABYLON.Color3.Red();
+                                    }
+
+                                }
+                            }
+
+                            // Display Health Percentage.
+                            // - Only update display if whole number.
+                            if (alive == true) {
+                                var textureContext = dynamicTexture.getContext();
+                                var size = dynamicTexture.getSize();
+                                var text = Math.round(healthPercentage) + "%  ";
+                                textureContext.clearRect(0, 0, size.width, size.height);
+
+                                textureContext.font = "bold 120px Calibri";
+                                var textSize = textureContext.measureText(text);
+                                textureContext.fillStyle = "white";
+                                textureContext.fillText(text, (size.width - textSize.width) / 2, (size.height - 120) / 2);
+
+                                dynamicTexture.update();
+                            }
+//============================== End of Checking Character Health ======================================================
+
+
+
+
+//==================================== Checking Enemy Health ===========================================================
+                            if (alive2) {
+
+                                // Re-calculate healthbar length.
+                                healthBar2.scaling.x = healthPercentage2 / 100;
+                                healthBar2.position.x = (1 - (healthPercentage2 / 100)) * -1;
+                                healthBar12.scaling.x = healthPercentage2 / 100;
+                                healthBar12.position.x = (1 - (healthPercentage2 / 100)) * -1;
+
+                                if (healthBar2.scaling.x == 0 || healthBar2.scaling.x < 0) {
+                                    alive2 = false;
+                                }
+                                else if (healthBar2.scaling.x <= .5) {
+                                    healthBarMaterial2.diffuseColor = BABYLON.Color3.Yellow();
+                                    healthBarTextMaterial2.diffuseColor = BABYLON.Color3.Yellow();
+                                    if (healthBar2.scaling.x <= .3) {
+                                        healthBarMaterial2.diffuseColor = BABYLON.Color3.Red();
+                                        healthBarTextMaterial2.diffuseColor = BABYLON.Color3.Red();
+                                    }
+
+                                }
+                            }
+
+                            // Display Health Percentage.
+                            // - Only update display if whole number.
+                            if (alive2 == true) {
+                                var textureContext2 = dynamicTexture2.getContext();
+                                var size2 = dynamicTexture2.getSize();
+                                var text2 = Math.round(healthPercentage2) + "%  ";
+                                textureContext2.clearRect(0, 0, size2.width, size2.height);
+
+                                textureContext2.font = "bold 120px Calibri";
+                                var textSize2 = textureContext2.measureText(text2);
+                                textureContext2.fillStyle = "white";
+                                textureContext2.fillText(text2, (size2.width - textSize2.width) / 2, (size2.height - 120) / 2);
+
+                                dynamicTexture2.update();
+                            }
+//============================== End of Checking Enemy Health ==========================================================
+
+
+//============================================ Enemy Damage ============================================================
+
+
+                            if (box.intersectsMesh(model, false) && !attack && alive2 == true) {
+                                if(attack == false){
+                                    healthPercentage -= 15;
+                                    attack = true;
+                                }
+                                window.setTimeout(function () {
+                                    var music3 = new BABYLON.Sound("Music3", "Sources/Bite.wav",scene, null, {loop: false, autoplay: true, useCustomAttenuation: true});
+                                    attack = false;
+                                },1000);
+                            }
+
+
+//
+//=================================== End of Enemy Damage ==============================================================
+
+
+
+
+//============================== Player Damage =========================================================================
+
+                            if(attackState == true){
+                                if (box2.intersectsMesh(wolf, false) && !attack2) {
+                                    if(attack2 == false){
+                                        healthPercentage2 -= 10;
+                                        attack2 = true;
+                                    }
+                                    window.setTimeout(function () {
+                                        attack2 = false;
+                                    },800);
+                                }
+                            }
+
+
+//================================ End of Player Damage ================================================================
+
+
+
+
+
+
+//
+//
+                            if (alive == false){
+
+                                deathMenu(scene);
+//                      window.setTimeout(function() {
+////                        location.reload();
+//                    }, 10000);
+                            }
+
+                            if(alive2 == false){
+
+                                wolf.dispose();
+                                box.dispose();
+                                attack2 = true;
+
+//                    var music = new BABYLON.Sound("Music", "Sources/ending.mp3",scene, null, {loop: false, autoplay: true, useCustomAttenuation: true});
+                                winMenu(scene);
+
+                            }
+
+
+
+//=================================== Character Out of Arena ===========================================================
+
+
+                            d = Math.sqrt(model.position.x * model.position.x + model.position.z * model.position.z);
+                            if (d > 150 || flagD) {
+                                model.position.y -= 0.5;
+                                flagD = true;
+                                healthPercentage -= 0.5;
+                                window.setTimeout(function () {
+                                    deathMenu(scene);
+                                },3000);
+                            }
+
+
+//=============================== End of Character Out of Arena ========================================================
+
+
+
+//=============================== Enemy Chasing Character ==============================================================
+
+
+                            if(alive != false) {
+                                xDiff = model.position.x - wolf.position.x ;
+                                zDiff = model.position.z - wolf.position.z ;
+                                rotate = Math.atan2(zDiff, xDiff) ;
+                                distance = Math.sqrt(xDiff*xDiff + zDiff * zDiff);
+                                playerposx = model.position.x;
+                                playerposz = model.position.z;
+                                wolf.rotation.y = rotate * -1 -Math.PI/2;
+
+                                if(distance>6 && distance<50) {
+
+
+                                    if (wolf.position.x > playerposx) {
+                                        wolf.position.x -= enemySpeed;
+                                    }
+
+                                    else if (wolf.position.x < playerposx) {
+                                        wolf.position.x += enemySpeed;
+
+                                    }
+
+                                    if (wolf.position.z > playerposz) {
+                                        wolf.position.z -= enemySpeed;
+
+                                    }
+
+                                    else if (wolf.position.z < playerposz) {
+                                        wolf.position.z += enemySpeed;
+                                    }
+
+
+                                }
+
+                            }
+
+//==================================== End of Enemy Chasing Character ==================================================
+
+                        });
+//
+
+//========================================= End of BeforeRunRender =====================================================
+
+
+
+
+
+                    });
+
+
+
+
+
+
+//=================================== End of Enemy =====================================================================
+
+
+
+
+//================================ End of Hard Difficulty ==============================================================
+
+
+
+
+                }, BABYLON.PrimitivePointerInfo.PointerUp);
+
+
+                return canvas;
+            };
+
+
+
+
+//================================= End of In Game Menu ================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+//===================================== Create MenuUI ==================================================================
+
+                    var Menu = BABYLON.MeshBuilder.CreateCylinder("menu", {diameterTop :5, diameterBottom: 0.5, height: 5}, scene);
+                    Menu.position = new BABYLON.Vector3(0, -70, -70);
+                    Menu.actionManager = new BABYLON.ActionManager(scene);
+                    Menu.actionManager.registerAction(new BABYLON.ExecuteCodeAction(
+                        {trigger: BABYLON.ActionManager.OnIntersectionEnterTrigger, parameter: model}
+
+                        , function () {
+                            gameMenu(scene);
+                            window.setTimeout(function()
+                            {
+                                Menu.dispose();
+
+                            },1500);
+                        }));
+
+                    var hBar3 = BABYLON.Mesh.CreatePlane("hbar", 10, scene,false);
+                    hBar3.billboardMode = BABYLON.AbstractMesh.BILLBOARDMODE_ALL;
+                    hBar3.material = new BABYLON.StandardMaterial("hb",scene);
+                    hBar3.position.y = 5;
+                    hBar3.parent = Menu;
+
+                    var hBarTexture3 = new BABYLON.DynamicTexture("dyn",1024,scene, true);
+                    hBar3.material.diffuseTexture = hBarTexture3;
+                    hBar3.material.specularColor = new BABYLON.Color3(0,0,0);
+                    hBar3.material.specularColor = new BABYLON.Color3(1,1,1);
+                    hBar3.material.backFaceCulling = false;
+
+
+                    hBarTexture3.drawText("Menu", null, 300, "bold 300px timesnewroman", "Blue");
+                    hBarTexture3.hasAlpha = true;
+
+
+
+
+
+//=================================== End of MenuUI ====================================================================
+
+
+
+
+
+//=============================================== Character Health Bar =================================================
+
+
+//            var healthBarMaterial = new BABYLON.StandardMaterial("hb1mat", scene);
+//            healthBarMaterial.diffuseColor = BABYLON.Color3.Green();
+//            healthBarMaterial.backFaceCulling = false;
+//
+//            var healthBarContainerMaterial = new BABYLON.StandardMaterial("hb2mat", scene);
+//            healthBarContainerMaterial.diffuseColor = BABYLON.Color3.Black();
+//            healthBarContainerMaterial.backFaceCulling = false;
+//
+//            var dynamicTexture = new BABYLON.DynamicTexture("dt1", 512, scene, true);
+//            dynamicTexture.hasAlpha = true;
+//
+//            var healthBarTextMaterial = new BABYLON.StandardMaterial("hb3mat", scene);
+//            healthBarTextMaterial.diffuseTexture = dynamicTexture;
+//            healthBarTextMaterial.backFaceCulling = false;
+//            healthBarTextMaterial.diffuseColor = BABYLON.Color3.Green();
+//
+//            // Name
+//            var hBar = BABYLON.Mesh.CreatePlane("hbar", 10, scene,false);
+//            hBar.billboardMode = BABYLON.AbstractMesh.BILLBOARDMODE_ALL;
+//            hBar.material = new BABYLON.StandardMaterial("hb",scene);
+//            hBar.position.y = 2.0;
+//            hBar.parent = model;
+//
+//            var hBarTexture = new BABYLON.DynamicTexture("dyn",512,scene, true);
+//            hBar.material.diffuseTexture = hBarTexture;
+//            hBar.material.specularColor = new BABYLON.Color3(0,0,0);
+//            hBar.material.specularColor = new BABYLON.Color3(1,1,1);
+//            hBar.material.backFaceCulling = false;
+//
+//
+//            hBarTexture.drawText("Kirito", null, 300, "bold 24px timesnewroman", "white");
+//            hBarTexture.hasAlpha = true;
+//
+//
+//            var healthBar = BABYLON.MeshBuilder.CreatePlane("hb1", {width:2, height:.5, subdivisions:4}, scene);
+//            var healthBar1 = BABYLON.MeshBuilder.CreatePlane("hb4", {width:2, height:.5, subdivisions:4}, scene);
+//            var healthBarContainer = BABYLON.MeshBuilder.CreatePlane("hb2", { width: 2, height: .5, subdivisions: 4 }, scene);
+//            var healthBarText = BABYLON.MeshBuilder.CreatePlane("hb3", { width: 2, height: 2, subdivisions: 4 }, scene);
+//            healthBarText.material = healthBarMaterial;
+//
+//            healthBarContainer.billboardMode = BABYLON.AbstractMesh.BILLBOARDMODE_ALL;
+//
+//
+//            healthBar.position = new BABYLON.Vector3(0, 0, -.01);           // Move in front of container slightly.  Without this there is flickering.
+//            healthBar1.position = new BABYLON.Vector3(0, 0, .01);
+//            healthBarContainer.position = new BABYLON.Vector3(0, 1.5, 0);     // Position above model.
+//            healthBarText.position = new BABYLON.Vector3(-1.5, -.4, 0);
+//
+//            healthBar.parent = healthBarContainer;
+//            healthBar1.parent = healthBarContainer;
+//            healthBarContainer.parent = model;
+//            healthBarText.parent = healthBarContainer;
+//
+//            healthBar.material = healthBarMaterial;
+//            healthBar1.material = healthBarMaterial;
+//            healthBarContainer.material = healthBarContainerMaterial;
+//            healthBarText.material = healthBarTextMaterial;
+//
+//
+//            var alive = true;
+//            var healthPercentage = 100;
+////===================================== End of Character Health Bar ====================================================
+            scene.registerBeforeRender(function () {
+                total = Math.sqrt(model.position.x * model.position.x + model.position.z * model.position.z);
+
+                if (total > 150 || flagR) {
+                    model.position.y -= 0.5;
+                    flagR = true;
+
+                    window.setTimeout(function () {
+                        deathMenu(scene);
+                    },3000);
+
+
+
+                }
+            })
+
+        });
+
+//========================================== End of Character ==========================================================
+
+
+
+
+
+
+
+//================================================== Character Movements ===============================================
+        var keyCode = {};
+        window.onkeydown = function (event) {
+            event = event || window.event;
+            keyCode[event.which || event.keyCode] = event.type;
+            var deg = model.rotation.y * 180 / Math.PI;
+
+
+            var playerz = 0.5 * Math.cos(deg * Math.PI / 180) * -1;
+            var playerx = 0.5 * Math.sin(deg * Math.PI / 180) * -1;
+            model.rotation.y = (Math.PI / 2 - camera.alpha);
+
+            //spacebar
+            if (keyCode[32]){
+                var music = new BABYLON.Sound("Music", "Sources/Sword.mp3",scene, null, {loop: false, autoplay: true, useCustomAttenuation: true});
+                startAttack();
+            }
+            //w+d
+            else if (keyCode[87] && keyCode[68]) {
+                model.rotation.y = Math.PI / 4 + Math.PI / 2 - camera.alpha;
+                model.position = new BABYLON.Vector3(model.position.x += playerx, model.position.y, model.position.z += playerz);
+                camera.target = new BABYLON.Vector3(camera.target.x += playerx, camera.target.y, camera.target.z += playerz);
+                startAnimation();
+            }
+            //w+a
+            else if (keyCode[87] && keyCode[65]) {
+                model.rotation.y = Math.PI / 4 - camera.alpha;
+                model.position = new BABYLON.Vector3(model.position.x += playerx, model.position.y, model.position.z += playerz);
+                camera.target = new BABYLON.Vector3(camera.target.x += playerx, camera.target.y, camera.target.z += playerz);
+                startAnimation();
+            }
+            //s+d
+            else if (keyCode[83] && keyCode[68]) {
+                model.rotation.y = -Math.PI / 4 - Math.PI / 2 - camera.alpha;
+                model.position = new BABYLON.Vector3(model.position.x += playerx, model.position.y, model.position.z += playerz);
+                camera.target = new BABYLON.Vector3(camera.target.x += playerx, camera.target.y, camera.target.z += playerz);
+                startAnimation();
+            }
+            //s+a
+            else if (keyCode[83] && keyCode[65]) {
+                model.rotation.y = Math.PI / 4 - Math.PI / 2 - camera.alpha;
+                model.position = new BABYLON.Vector3(model.position.x += playerx, model.position.y, model.position.z += playerz);
+                camera.target = new BABYLON.Vector3(camera.target.x += playerx, camera.target.y, camera.target.z += playerz);
+                startAnimation();
+            }
+            //w
+            else if (keyCode[87]) {
+                model.rotation.y = Math.PI / 2 - camera.alpha;
+                model.position = new BABYLON.Vector3(model.position.x += playerx, model.position.y, model.position.z += playerz);
+                camera.target = new BABYLON.Vector3(camera.target.x += playerx, camera.target.y, camera.target.z += playerz);
+                startAnimation();
+            }
+            //s
+            else if (keyCode[83]) {
+                model.rotation.y = Math.PI + (Math.PI / 2 - camera.alpha);
+                model.position = new BABYLON.Vector3(model.position.x += playerx, model.position.y, model.position.z += playerz);
+                camera.target = new BABYLON.Vector3(camera.target.x += playerx, camera.target.y, camera.target.z += playerz);
+                startAnimation();
+            }
+            //d
+            else if (keyCode[68]) {
+                model.rotation.y = Math.PI / 2 + (Math.PI / 2 - camera.alpha);
+                model.position = new BABYLON.Vector3(model.position.x += playerx, model.position.y, model.position.z += playerz);
+                camera.target = new BABYLON.Vector3(camera.target.x += playerx, camera.target.y, camera.target.z += playerz);
+                startAnimation();
+            }
+            //a
+            else if (keyCode[65]) {
+                model.rotation.y = Math.PI * 3 / 2 + (Math.PI / 2 - camera.alpha);
+                model.position = new BABYLON.Vector3(model.position.x += playerx, model.position.y, model.position.z += playerz);
+                camera.target = new BABYLON.Vector3(camera.target.x += playerx, camera.target.y, camera.target.z += playerz);
+                startAnimation();
+            }
+        };
+
+//            window.onkeyup = function (event) {
+//                delete keyCode[event.keyCode];
+//                scene.stopAnimation(globalSkele);
+//                scene.beginAnimation(globalSkele, scene.currentFrame, 0, false, 1.0);
+//                animationState = false;
+//                attackState = false;
+//            };
+        window.onkeyup = function(event){
+            delete keyCode[event.keyCode];
+            if(!keyCode[65]&&!keyCode[87]&&!keyCode[83]&&!keyCode[68]&&!keyCode[32]) {
+                scene.stopAnimation(globalSkele);
+                scene.beginAnimation(globalSkele, scene.currentFrame, 0, false, 1.0);
+                animationState = false;
+                attackState = false;
+            }
+        }
+
+
+
+
+//=================================== Sky Box ==========================================================================
+
+
+         var skybox = BABYLON.MeshBuilder.CreateBox("skyBox", {size:500.0}, scene);
+         var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+         skyboxMaterial.backFaceCulling = false;
+         skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("textures/skybox", scene);
+         skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+         skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+         skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+         skybox.material = skyboxMaterial;
+
+
+//================================  End of Sky Box =====================================================================
+
+
+//================================== Create Ground =====================================================================
+
+
+
+        var mat = new BABYLON.StandardMaterial("mat1", scene);
+        mat.alpha = 1.0;
+        mat.diffuseColor = new BABYLON.Color3(1, 1, 1);
+        mat.backFaceCulling = false;
+
+        var texture = new BABYLON.Texture("Images/floor.jpg", scene);
+        mat.diffuseTexture = texture;
+
+
+        var cylinder = BABYLON.MeshBuilder.CreateCylinder("ground1", {diameterTop : 300, diameterBottom: 80, tessellation: 48, height: 50 }, scene);
+
+        cylinder.material = mat;
+         cylinder.position = new BABYLON.Vector3(0, -100, 0);
+         cylinder.material.diffuseColor = new BABYLON.Color3(1,0,0);
+
+         var cylinder2 = BABYLON.MeshBuilder.CreateCylinder("ground2", {diameter: 80, tessellation: 48, height: 100 }, scene);
+         var matGround1 = new BABYLON.StandardMaterial('ground2',scene);
+
+         // matGround.diffuseTexture = new BABYLON.TextureandardMaterial('ground1',scene);('Texture/grass.jpg', scene);
+         cylinder2.material = matGround1;
+         cylinder2.position = new BABYLON.Vector3(0, -150, 0);
+         cylinder2.material.diffuseColor = new BABYLON.Color3(1,1,1);
+
+        cylinder.checkCollisions = true;
+
+//============================== End of Create Ground ==================================================================
+
+        engine.runRenderLoop(function(){
+
+            if (camera.radius > 70)    camera.radius = 70;
+            if (camera.radius < 20)    camera.radius = 20;
+//            camera.beta = Math.PI/4;
+//            if (model.alpha != )
+//            console.log(camera.alpha);
+
+
+
+
+            scene.render();
+        });
+
+        window.addEventListener('resize', function(){
+            engine.resize();
+        });
+
+    </script>
+</body>
+</html>
