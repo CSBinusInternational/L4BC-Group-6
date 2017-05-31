@@ -11,7 +11,7 @@
     <script src="assets/js/canvas2d.js"></script>
     <link rel="stylesheet" href="assets/css/style.css">
 
-    <title>CG Project</title>
+    <title>Tower of Beginning</title>
 </head>
 <body>
     <canvas id="myCanvas"></canvas>
@@ -110,7 +110,7 @@
                 size: new BABYLON.Size(size.clientWidth,size.clientHeight)
             });
 
-            var textureM = new BABYLON.Texture("assets/music/deathPlayer.png", scene);
+            var textureM = new BABYLON.Texture("assets/image/deathPlayer.png", scene);
             textureM.wrapU = BABYLON.Texture.CLAMP_ADDRESSMODE;
             textureM.wrapV = BABYLON.Texture.CLAMP_ADDRESSMODE;
             var spriteMenu = new BABYLON.Sprite2D(textureM, {
@@ -325,7 +325,7 @@
                         wolf = newMeshes[0];
                         globalSkele1 = skeletons[0];
                         scene.beginAnimation(globalSkele1, 10, 60, true, 1.0);
-                        wolf.position = new BABYLON.Vector3(25,-75.07,30);
+                        wolf.position = new BABYLON.Vector3(0,-75.07,30);
                         wolf.scaling = new BABYLON.Vector3(10,10,10);
 
                         // Box for damage the player
