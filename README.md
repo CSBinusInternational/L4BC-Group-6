@@ -1,6 +1,6 @@
 # Tower of Beginning
 
- 
+![Failed to load image](http://imgur.com/1EHVA31)
 
 
 Revision: 0.0.0
