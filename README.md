@@ -33,11 +33,11 @@ TL;DR - Keep the credits section of this document intact and we are good and do 
 1. Overview
 2. Theme / Setting / Genre
 3. Project Description
-4. Core Gameplay Mechanics Brie
+4. Core Gameplay Mechanics Brief
 5. Targeted platforms
 6. Project Scope
 7. Project Limitations
-8. How to operate the gam
+8. How to operate the game
 9. Story and Gameplay
   * Story
   * Gameplay
@@ -53,7 +53,7 @@ TL;DR - Keep the credits section of this document intact and we are good and do 
    * Week #5
 12. Full Coding
    * https://github.com/CSBinusInternational/L4BC-Group-6
-13. Screenshot of the Game
+13. Screenshots of the Game
 
 
 
@@ -259,7 +259,7 @@ These are several steps how to play this game:
 
 ### Full Coding
 	- https://github.com/CSBinusInternational/L4BC-Group-6
-### Screenshot of the Game
+### Screenshots of the Game
 
   * Start Screen
   ![Failed to load image](http://i.imgur.com/qQDxTaR.png)	
